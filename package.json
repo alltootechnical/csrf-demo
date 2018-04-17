@@ -1,0 +1,38 @@
+{
+  "name": "csrf-demo",
+  "version": "1.0.0",
+  "description": "CS 159.20 project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alltootechnical/csrf-demo.git"
+  },
+  "keywords": [
+    "CSRF",
+    "Cross",
+    "site",
+    "request",
+    "forgery",
+    "node.js",
+    "javascript",
+    "postman",
+    "api",
+    "endpoints"
+  ],
+  "author": "Francis Avancena, Brian Guadalupe, Lance Derek Andallaza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alltootechnical/csrf-demo/issues"
+  },
+  "homepage": "https://github.com/alltootechnical/csrf-demo#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "sqlite3": "^4.0.0"
+  }
+}
