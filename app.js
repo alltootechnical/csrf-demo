@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('db.sqlite3');
 const app = express();
 const port = process.env.PORT || 8000;
+var request = require('request');
 
 // SQLite3 setup
 db.serialize(() => {
@@ -42,6 +43,24 @@ app.get('/', (req, res, next)=>{
 	});
 });
 
+app.get('/new', (req, res, next)=>{
+	res.render('newpost');
+});
+
+app.post('/new', (req, res, next)=>{
+	var newpost = {
+		title: req.body.title,
+		body: req.body.body
+	};
+	request.post('http://localhost:8000/posts', {json: newpost},
+		(err, req, bod) => {
+			console.log(err);
+		}
+	);
+	res.redirect('/posts');
+});
+
+
 app.get('/posts', (req, res, next) => {
 	db.all("SELECT * FROM posts", function(err, rows) {
 		res.render('index', {posts: rows});
@@ -67,6 +86,26 @@ app.post('/posts/:id', (req, res, next) => {
 	db.run("UPDATE posts SET title = ?, body = ? WHERE id = ?", [req.body.title, req.body.body, req.params.id]);
 	res.redirect(`/posts/${req.params.id}`);
 });
+
+app.get('/edit/:id', (req, res, next)=>{
+	db.get("SELECT * FROM posts WHERE id = ?", [req.params.id], function(err, row){
+		console.log(row);
+		res.render('editpost', {post: row});
+	});
+});
+
+app.post('/edit/:id', (req, res, next) => {
+	var newpost = {
+		title: req.body.title,
+		body: req.body.body
+	};
+	request.post(`http://localhost:8000/posts/${req.params.id}`, {json: newpost},
+		(err, req, bod) => {
+			console.log(err);
+		}
+	);
+	res.redirect(`/posts/${req.params.id}`);
+}); 
 
 // Listen
 app.listen(port, () => {

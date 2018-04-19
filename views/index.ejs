@@ -1,5 +1,6 @@
 <% include partials/header %>
+<a href="/new">Create new post</a>
 <% for(const post of posts) { %>
-	<li><%= post.title %></li>
+	<li><%= post.title %> (<a href="/posts/<%= post.id %>">View</a>, <a href="/edit/<%= post.id %>">Edit</a>)</li>
 <% } %>
 <% include partials/footer %>

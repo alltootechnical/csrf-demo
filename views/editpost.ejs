@@ -1,0 +1,10 @@
+<% include partials/header %>
+<h1>Edit post "<%= post.title %>"</h1>
+<form id="editpostform" method="POST">
+    Title: <br>
+    <input type="text" name="title"><br>
+    Content: <br>
+    <input type="text" name="body"><br>
+    <input type="submit">
+</form>
+<% include partials/footer %>
