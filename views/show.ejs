@@ -1,3 +1,6 @@
 <% include partials/header %>
 <h1><%= post.title %></h1>
+<a href="/">Back</a>&#09;&#09;<a href="/edit/<%= post.id %>">Edit</a>
+<hr>
+<p><%= post.body %></p>
 <% include partials/footer %>
