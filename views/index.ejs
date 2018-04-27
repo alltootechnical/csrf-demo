@@ -1,6 +1,8 @@
 <% include partials/header %>
 <a href="/new">Create new post</a>
 <% for(const post of posts) { %>
-	<li><%= post.title %> (<a href="/posts/<%= post.id %>">View</a>, <a href="/edit/<%= post.id %>">Edit</a>)</li>
+	<li><%= post.title %> (<a href="/posts/<%= post.id %>">View</a>, 
+		<a href="/edit/<%= post.id %>">Edit</a>)
+		<form method="POST" action="/posts/<%= post.id %>/delete"><button type="submit">Delete</button></form></li>
 <% } %>
 <% include partials/footer %>

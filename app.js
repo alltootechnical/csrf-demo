@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('db.sqlite3');
 const app = express();
 const port = process.env.PORT || 8000;
-var request = require('request');
+const request = require('request');
 
 // SQLite3 setup
 db.serialize(() => {
@@ -47,20 +47,6 @@ app.get('/new', (req, res, next)=>{
 	res.render('newpost');
 });
 
-app.post('/new', (req, res, next)=>{
-	var newpost = {
-		title: req.body.title,
-		body: req.body.body
-	};
-	request.post('http://localhost:8000/posts', {json: newpost},
-		(err, req, bod) => {
-			console.log(err);
-		}
-	);
-	res.redirect('/posts');
-});
-
-
 app.get('/posts', (req, res, next) => {
 	db.all("SELECT * FROM posts", function(err, rows) {
 		res.render('index', {posts: rows});
@@ -94,20 +80,12 @@ app.get('/edit/:id', (req, res, next)=>{
 	});
 });
 
-app.post('/edit/:id', (req, res, next) => {
-	var newpost = {
-		title: req.body.title,
-		body: req.body.body
-	};
-	request.post(`http://localhost:8000/posts/${req.params.id}`, {json: newpost},
-		(err, req, bod) => {
-			console.log(err);
-		}
-	);
-	res.redirect(`/posts/${req.params.id}`);
-}); 
+app.post('/posts/:id/delete', (req, res) => {
+	db.run("DELETE FROM posts WHERE id = ?", [req.params.id]);
+	res.redirect('/posts');
+});
 
 // Listen
 app.listen(port, () => {
-	console.log(`Application is listen at port ${port}: http://localhost:${port}`);
+	console.log(`Application is listening at port ${port}: http://localhost:${port}`);
 });
