@@ -79,7 +79,7 @@ app.post('/posts/:id', (req, res) => {
 });
 
 app.post('/posts/:id/delete', (req, res) => {
-	db.run("DELETE posts WHERE id = ?", [req.params.id]);
+	db.run("DELETE FROM posts WHERE id = ?", [req.params.id]);
 	res.redirect('/posts');
 });
 
@@ -92,5 +92,5 @@ app.get('/edit/:id', (req, res)=>{
 
 // Listen
 app.listen(port, () => {
-	console.log(`Application is listen at port ${port}: http://localhost:${port}`);
+	console.log(`Application is listening at port ${port}: http://localhost:${port}`);
 });
