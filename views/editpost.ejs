@@ -1,6 +1,7 @@
 <% include partials/header %>
 <h1>Edit post "<%= post.title %>"</h1>
 <form id="editpostform" action="/posts/<%= post.id %>"method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken%>">
     Title: <br>
     <input type="text" name="title" value="<%= post.title %>"><br>
     Content: <br>

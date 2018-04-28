@@ -42,9 +42,9 @@ app.set('views', path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
 // Routing
-app.get('/', (req, res, next)=>{
+app.get('/', parseForm, csrfProtection, (req, res, next)=>{
 	db.all("SELECT * FROM posts", function(err, rows){
-		res.render('index', {posts: rows});
+		res.render('index', {posts: rows, csrfToken: req.csrfToken() });
 	});
 });
 
@@ -52,9 +52,9 @@ app.get('/new', csrfProtection, (req, res)=>{
 	res.render('newpost', { csrfToken: req.csrfToken() });
 });
 
-app.get('/posts', (req, res, next) => {
+app.get('/posts', parseForm, csrfProtection, (req, res, next) => {
 	db.all("SELECT * FROM posts", function(err, rows) {
-		res.render('index', {posts: rows});
+		res.render('index', {posts: rows, csrfToken: req.csrfToken()});
 	});
 });
 
@@ -73,20 +73,20 @@ app.get('/posts/:id', (req, res) => {
 	});
 });
 
-app.post('/posts/:id', (req, res) => {
+app.post('/posts/:id', parseForm, csrfProtection, (req, res) => {
 	db.run("UPDATE posts SET title = ?, body = ? WHERE id = ?", [req.body.title, req.body.body, req.params.id]);
 	res.redirect(`/posts/${req.params.id}`);
 });
 
-app.post('/posts/:id/delete', (req, res) => {
+app.post('/posts/:id/delete', parseForm, csrfProtection, (req, res) => {
 	db.run("DELETE FROM posts WHERE id = ?", [req.params.id]);
 	res.redirect('/posts');
 });
 
-app.get('/edit/:id', (req, res)=>{
+app.get('/edit/:id', parseForm, csrfProtection, (req, res)=>{
 	db.get("SELECT * FROM posts WHERE id = ?", [req.params.id], function(err, row){
 		console.log(row);
-		res.render('editpost', {post: row});
+		res.render('editpost', {post: row, csrfToken: req.csrfToken()});
 	});
 }); 
 
